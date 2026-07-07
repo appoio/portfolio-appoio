@@ -23,9 +23,24 @@
      - pitch: parágrafos de venda (array de strings)
      - diferenciais: bullets ("Recursos e vantagens")
      - precoDesde: número (ou null pra "sob orçamento", caso da Identidade Visual)
-     - exemplos: [{ label, url }] com os links do GitHub Pages. Deixe [] pros
-       serviços que ainda não têm modelo no ar — a página mostra "em breve"
-       sozinha, sem precisar mexer em mais nada.
+       Use isso quando o serviço tem UM valor fixo só.
+     - modalidades: [{ nome, preco }] — use isso em vez de precoDesde quando o
+       serviço tem versões com valores diferentes (ex: Convite Digital tem 3
+       modos de confirmação, Cardápio Digital tem 2 versões). O card mostra
+       "A partir de" + o menor valor, e lista cada modalidade com seu preço
+       logo abaixo. Se um serviço tiver "modalidades", o "precoDesde" dele é
+       ignorado — não precisa dos dois ao mesmo tempo.
+     - exemplos: [{ label, url, banner }] com os links do GitHub Pages.
+       "banner" é o caminho de uma miniatura/print da página (ex:
+       "prints/convite-menino.jpg") — aparece como thumbnail clicável no
+       card do serviço, pra chamar mais atenção do que só texto. Enquanto
+       o arquivo da imagem não existir, o card mostra um espaço reservado
+       com instrução de qual arquivo salvar ali (mesmo esquema dos
+       placeholders de foto que você já usa no sub-portfólio de Identidade
+       Visual). Na seção "Modelos prontos" lá embaixo, o link continua só
+       texto + ícone, sem thumbnail — não precisa mexer em nada pra isso.
+       Deixe exemplos: [] pros serviços que ainda não têm modelo no ar — a
+       página mostra "em breve" sozinha, sem precisar mexer em mais nada.
 
   4) REGRAS COMERCIAIS → CONFIG.combos (% de desconto por combo) e
      CONFIG.manutencao (valor avulso + planos). Os valores que estão aí são
@@ -343,6 +358,117 @@
       .nota-preco .preco-mensal b {
         color: var(--accent-2);
       }
+      .modalidades-lista {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .modalidades-lista .modalidade-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12.5px;
+        color: var(--text);
+      }
+      .modalidades-lista .modalidade-item span:last-child {
+        color: var(--accent-2);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* cards de exemplo com miniatura (dentro do card de serviço) */
+      .servico-exemplos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .exemplo-card {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        text-decoration: none;
+        color: var(--text);
+        background: var(--surface2);
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
+      }
+      .exemplo-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .exemplo-thumb {
+        position: relative;
+        aspect-ratio: 16/10;
+        background: var(--surface);
+        overflow: hidden;
+      }
+      .exemplo-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+      }
+      .exemplo-thumb img.hidden {
+        display: none;
+      }
+      .exemplo-thumb .thumb-placeholder {
+        display: none;
+        position: absolute;
+        inset: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-align: center;
+        padding: 10px;
+        color: var(--muted);
+        background: repeating-linear-gradient(
+          135deg,
+          var(--surface2) 0px,
+          var(--surface2) 8px,
+          var(--surface) 8px,
+          var(--surface) 16px
+        );
+      }
+      .exemplo-thumb.missing .thumb-placeholder {
+        display: flex;
+      }
+      .exemplo-thumb .thumb-placeholder i {
+        font-size: 15px;
+        opacity: 0.6;
+      }
+      .exemplo-thumb .thumb-placeholder code {
+        font-family: var(--font-mono);
+        font-size: 9.5px;
+        line-height: 1.4;
+        background: rgba(0, 0, 0, 0.25);
+        padding: 3px 6px;
+        border-radius: 5px;
+        word-break: break-all;
+        max-width: 100%;
+      }
+      .exemplo-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 9px 11px;
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+      .exemplo-info i {
+        font-size: 10.5px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .exemplo-card:hover .exemplo-info i {
+        color: var(--accent);
+      }
 
       .servico-links {
         display: flex;
@@ -567,8 +693,9 @@
     <section class="hero">
       <div class="hero-inner">
         <span class="eyebrow">Presença digital personalizada</span>
-        <h1 id="heroTitulo">Seu negócio merece <span>mais</span></h1>
-        <p id="heroTagline">Soluções que trabalham por você!</p>
+        <!-- <h1 id="heroTitulo">Seu negócio merece <span>mais</span></h1> -->
+        <h1 id="heroTitulo">Soluções que <span>trabalham</span> por você</h1>
+        <!-- <p id="heroTagline">Soluções que trabalham por você</p> -->
       </div>
     </section>
 
@@ -632,7 +759,7 @@
       const CONFIG = {
         agencia: {
           nome: "APPOIO",
-          logoUrl: "/logo.png", // ex: "imagens/logo.png" — vazio mostra o nome em texto
+          logoUrl: "logo.png", // ex: "imagens/logo.png" — vazio mostra o nome em texto
           whatsapp: "5521975811821",
           email: "", // opcional — deixe vazio se não quiser exibir
         },
@@ -644,9 +771,9 @@
         manutencao: {
           avulsa: 30,
           planos: [
-            { nome: "Trimestral", precoMes: 25 },
-            { nome: "Semestral", precoMes: 20 },
-            { nome: "Anual", precoMes: 15 },
+            { nome: "Trimestral", precoMes: 20 },
+            { nome: "Semestral", precoMes: 15 },
+            { nome: "Anual", precoMes: 10 },
           ],
         },
 
@@ -664,21 +791,29 @@
             ],
             diferenciais: [
               "Personalização: fotos, banner, paleta, música, lista de presentes, blocos visíveis etc.",
-              "3 modos: 1) Confirmação por WhatsApp; 2) Confirmação por WhatsApp + planilha; 3) Confirmação por WhatsApp + painel visual",
+              "3 versões: 1) Confirmação por WhatsApp; 2) Confirmação por WhatsApp + planilha; 3) Confirmação por WhatsApp + painel visual",
             ],
-            precoDesde: 110,
+            // AJUSTE os valores reais de cada modo — estes são só exemplo
+            modalidades: [
+              { nome: "Confirmação por WhatsApp", preco: 110 },
+              { nome: "Confirmação por WhatsApp + planilha", preco: 150 },
+              { nome: "Confirmação por WhatsApp + painel visual", preco: 190 },
+            ],
             exemplos: [
               {
                 label: "Aniversário Menino",
                 url: "https://appoio.github.io/convite-menino/",
+                banner: "prints/1.png",
               },
               {
                 label: "Aniversário Menina",
                 url: "https://appoio.github.io/convite-menina/",
+                banner: "prints/2.png",
               },
               {
                 label: "Mesversário Gêmeos",
                 url: "https://appoio.github.io/convite-gemeos/",
+                banner: "prints/3.png",
               },
             ],
           },
@@ -704,14 +839,17 @@
               {
                 label: "Personal",
                 url: "https://appoio.github.io/cartao-personal/",
+                banner: "prints/4.png",
               },
               {
                 label: "Psicóloga",
                 url: "https://appoio.github.io/cartao-psicologa/",
+                banner: "prints/5.png",
               },
               {
                 label: "Manicure",
                 url: "https://appoio.github.io/cartao-manicure/",
+                banner: "prints/6.png",
               },
             ],
           },
@@ -722,8 +860,8 @@
             resumo:
               "Não perca mais tempo com conversas confusas e interrompidas. Organize tudo de uma vez!",
             pitch: [
-              "Você já viveu isso? Alguém manda mensagem demonstrando interesse e some, retorna só de tarde, fala pela metade e às vezes nem volta mais.",
-              "O formulário resolve isso: seu cliente já preenche as informações necessárias e tudo chega formatado no seu WhatsApp. Você avalia com calma e devolve um orçamento técnico e profissional. Sem lenga-lenga repetido a cada novo pedido.",
+              "Você já viveu isso? Alguém manda mensagem demonstrando interesse e some, retorna no outro dia, fala pela metade, e às vezes nem volta mais.",
+              "O formulário resolve isso: seu cliente já preenche as informações necessárias e tudo chega formatado no seu WhatsApp. Você avalia com calma e devolve um orçamento técnico e profissional. Sem lenga-lenga a cada novo pedido.",
             ],
             diferenciais: [
               "Personalização: cores, tema, marca etc. Os campos são específicos/adaptados ao seu segmento",
@@ -736,18 +874,22 @@
               {
                 label: "Pedido Costureira",
                 url: "https://appoio.github.io/pedido_orcamento-costureira/",
+                banner: "prints/7.png",
               },
               {
                 label: "Retorno Costureira",
                 url: "https://appoio.github.io/pedido_orcamento-costureira/retorno",
+                banner: "prints/8.png",
               },
               {
                 label: "Pedido Pintor",
                 url: "https://appoio.github.io/pedido_orcamento-pintor",
+                banner: "prints/9.png",
               },
               {
                 label: "Retorno Pintor",
                 url: "https://appoio.github.io/pedido_orcamento-pintor/retorno",
+                banner: "prints/10.png",
               },
             ],
           },
@@ -757,7 +899,7 @@
             status: "disponivel",
             resumo: "Apresente e venda com facilidade!",
             pitch: [
-              "Diferente de uma arte fixa, de fotos soltas no Instagram ou compilados em stories, esse é um cardápio online de verdade: com todos os seus produtos categorizados.",
+              "Diferente de uma arte fixa, de fotos soltas ou compilados em stories, esse é um cardápio online de verdade: com todos os seus produtos categorizados.",
               "O cliente pode navegar, escolher os itens, montar um carrinho e ver o subtotal em tempo real.",
             ],
             diferenciais: [
@@ -766,19 +908,26 @@
               "Praticidade, sem precisar responder preço ou disponibilidade. Tudo está claro e acessível",
               "Duas versões: só visualização, ou com carrinho e envio",
             ],
-            precoDesde: 240,
+            // AJUSTE os valores reais de cada versão — estes são só exemplo
+            modalidades: [
+              { nome: "Só visualização", preco: 240 },
+              { nome: "Com carrinho e envio", preco: 290 },
+            ],
             exemplos: [
               {
                 label: "Pastelaria",
                 url: "https://appoio.github.io/cardapio-pastelaria/",
+                banner: "prints/11.png",
               },
               {
                 label: "Hamburgueria",
                 url: "https://appoio.github.io/cardapio-hamburgueria/",
+                banner: "prints/12.png",
               },
               {
                 label: "Doceria",
                 url: "https://appoio.github.io/cardapio-doceria/",
+                banner: "prints/13.png",
               },
             ],
           },
@@ -789,9 +938,9 @@
             resumo:
               "A vitrine do seu negócio, que convence e direciona 24 horas por dia!",
             pitch: [
-              "Alguém já perguntou o que você faz e você teve que explicar tudo? Ou a pessoa viu seu instagram e ainda assim duvidou dos seus serviços?",
-              "Uma Landing Page resolve isso. Ela é o seu outdoor, o seu melhor vendedor, que nunca se cansa de explicar o que você faz.",
-              "É uma página única, completa e focada em conversão. Diferente de um site cheio de páginas, ela é direta e objetiva: reúne apresentação, serviços, prova social e um caminho claro de contato.",
+              "Alguém já te perguntou o que faz e você teve que explicar tudo? Ou a pessoa viu seu perfil e ainda duvidou dos seus serviços?",
+              "Uma Landing Page é o seu outdoor, o seu melhor vendedor, que nunca se cansa de explicar o que você faz.",
+              "É uma página única, completa e focada em conversão. Diferentemente de um site cheio de páginas, ela é direta e objetiva: reúne apresentação, serviços, prova social e um caminho claro de contato.",
             ],
             diferenciais: [
               "Personalização: cores, tipografia e conteúdo adaptado. A sequência de blocos é a estrutura-base (pode ocultar seções que não fizerem sentido no seu contexto)",
@@ -803,6 +952,7 @@
               {
                 label: "Escola de Dança",
                 url: "https://appoio.github.io/landing-danca/",
+                banner: "prints/14.png",
               },
             ],
           },
@@ -811,7 +961,7 @@
             nome: "Portfólio Digital",
             status: "disponivel",
             resumo:
-              "Seu trabalho do jeito que merece ser visto: completo, organizado e no seu controle!",
+              "Seu trabalho do jeito que merece ser visto: completo, organizado e sob controle!",
             pitch: [
               "Postar trabalho solto é como deixar as peças de um quebra-cabeça espalhadas: quem visita seu perfil vê só fragmentos.",
               "O Portfólio Digital é o seu espaço na internet onde você controla tudo: quais trabalhos aparecem, em que ordem, com que descrição. É o melhor do seu trabalho, sempre em evidência.",
@@ -827,6 +977,7 @@
               {
                 label: "Tatuador",
                 url: "https://appoio.github.io/portfolio-tatuador/",
+                banner: "prints/15.png",
               },
             ],
           },
@@ -850,10 +1001,12 @@
               {
                 label: "Pilates",
                 url: "https://appoio.github.io/estreia-pilates/",
+                banner: "prints/16.png",
               },
               {
                 label: "Escola de Música",
                 url: "https://appoio.github.io/estreia-musica/",
+                banner: "prints/17.png",
               },
             ],
           },
@@ -865,12 +1018,11 @@
               "A alma do seu negócio traduzida em cores, formas e personalidade!",
             pitch: [
               "É o trabalho de traduzir a essência do negócio em elementos concretos: um logo que conta história, cores que transmitem a emoção certa, e um conjunto que te faz reconhecível e memorável.",
-              "É o serviço mais global que ofereço. Ele dá a cara para todos os outros produtos digitais que você pode ter, garantindo uma comunicação visual coesa.",
+              "É o serviço mais global que ofereço. Ele dá a cara para todos os outros produtos digitais, garantindo uma comunicação visual coesa.",
             ],
             diferenciais: [
               "Briefing: preferências estéticas (cores, estilos, referências), nicho e público-alvo, clima, elementos (símbolos, tipografia etc)",
               "Processo colaborativo e único. Cada desenvolvimento é exclusivo",
-              "Serve de base visual pra todos os outros serviços",
               "Se destaque da multidão com uma estética autêntica e coerente",
             ],
             precoDesde: null,
@@ -878,6 +1030,7 @@
               {
                 label: "Identidade Visual",
                 url: "https://appoio.github.io/identidade-visual/",
+                banner: "prints/18.png",
               },
             ],
           },
@@ -931,7 +1084,25 @@
             : "";
 
         let notaPreco = "";
-        if (s.precoDesde) {
+        if (s.modalidades && s.modalidades.length) {
+          const menorPreco = Math.min(...s.modalidades.map((m) => m.preco));
+          const listaModalidades = s.modalidades
+            .map(
+              (m) =>
+                `<div class="modalidade-item"><span>${m.nome}</span><span>${formatarPreco(m.preco)}</span></div>`,
+            )
+            .join("");
+          notaPreco = `
+      <div class="nota-preco">
+        <div class="preco-principal">
+          <span class="rotulo">A partir de</span>
+          <span class="valor">${formatarPreco(menorPreco)}</span>
+        </div>
+        <div class="preco-mensal">
+          Valor único, sem mensalidade. Varia conforme a versão escolhida.
+        </div>
+      </div>`;
+        } else if (s.precoDesde) {
           notaPreco = `
       <div class="nota-preco">
         <div class="preco-principal">
@@ -956,7 +1127,31 @@
         );
         let linksHtml = "";
         if (exemplosDisponiveis.length) {
-          linksHtml = `<div class="servico-links">${exemplosDisponiveis.map((e) => `<a class="link-exemplo" href="${e.url}" target="_blank">${e.label} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`).join("")}</div>`;
+          const cardsHtml = exemplosDisponiveis
+            .map((e) => {
+              const temBanner = e.banner && e.banner.trim() !== "";
+              const imgTag = temBanner
+                ? `<img src="${e.banner}" alt="Prévia — ${e.label}" loading="lazy"
+                     onload="this.parentElement.classList.remove('missing')"
+                     onerror="this.parentElement.classList.add('missing'); this.classList.add('hidden')">`
+                : "";
+              return `
+        <a class="exemplo-card" href="${e.url}" target="_blank">
+          <div class="exemplo-thumb${temBanner ? "" : " missing"}">
+            ${imgTag}
+            <div class="thumb-placeholder">
+              <i class="fa-solid fa-image"></i>
+              <code>${temBanner ? e.banner : "adicione um banner"}</code>
+            </div>
+          </div>
+          <div class="exemplo-info">
+            <span>${e.label}</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>`;
+            })
+            .join("");
+          linksHtml = `<div class="servico-exemplos">${cardsHtml}</div>`;
         } else if (s.status === "em-breve") {
           linksHtml = `<div class="servico-links"><span class="em-breve-badge">Modelo ainda em produção — em breve dá pra ver ao vivo aqui.</span></div>`;
         }
@@ -984,7 +1179,7 @@
       regrasGrid.innerHTML = `
   <div class="regra-card">
     <h3>Pagamento único</h3>
-    <p>Você paga apenas uma vez. Sem mensalidade, sem renovação, sem cobrança recorrente pra continuar no ar.</p>
+    <p>Sem mensalidade, sem renovação, sem cobrança recorrente pra seguir no ar.</p>
   </div>
   <div class="regra-card">
     <h3>Desconto por combo</h3>
@@ -994,11 +1189,11 @@
     </ul>
   </div>
   <div class="regra-card">
-    <h3>Manutenção, se precisar</h3>
+    <h3>Manutenção</h3>
     <p>Cada ajuste avulso sai por <b>${formatarPreco(CONFIG.manutencao.avulsa)}</b> por solicitação.</p>
     <p style="margin-top:8px;">Pra quem precisa de ajustes com frequência, os planos saem mais em conta por mês:</p>
     <ul>
-      ${CONFIG.manutencao.planos.map((p) => `<li><b>${p.nome}</b> — ${formatarPreco(p.precoMes)}/mês</li>`).join("")}
+      ${CONFIG.manutencao.planos.map((p) => `<li><b>${p.nome}</b>: ${formatarPreco(p.precoMes)}/mês</li>`).join("")}
     </ul>
   </div>
   <div class="regra-card">
