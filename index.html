@@ -4,51 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>APPOIO | Presença digital</title>
-
-    <!--
-  ============================================================================
-  PORTFÓLIO / PÁGINA DE VENDAS DA AGÊNCIA — leia antes de editar
-  ============================================================================
-  Tudo que você precisa mexer está dentro do objeto CONFIG, lá no <script>,
-  perto do fim do arquivo. Não precisa tocar no HTML nem no CSS pra:
-
-  1) LOGO/NOME → CONFIG.agencia.logoUrl. Vazio = mostra o nome em texto
-     (mesmo esquema de fallback foto→texto que você já usa no cardápio).
-     Quando organizar a logo, é só colar o caminho (ex: imagens/logo.png).
-
-  2) CONTATO → CONFIG.agencia.whatsapp / instagram / email.
-
-  3) CADA SERVIÇO → array CONFIG.servicos. Cada item tem:
-     - status: "disponivel" ou "em-breve" (controla o CTA de exemplos)
-     - pitch: parágrafos de venda (array de strings)
-     - diferenciais: bullets ("Recursos e vantagens")
-     - precoDesde: número (ou null pra "sob orçamento", caso da Identidade Visual)
-       Use isso quando o serviço tem UM valor fixo só.
-     - modalidades: [{ nome, preco }] — use isso em vez de precoDesde quando o
-       serviço tem versões com valores diferentes (ex: Convite Digital tem 3
-       modos de confirmação, Cardápio Digital tem 2 versões). O card mostra
-       "A partir de" + o menor valor, e lista cada modalidade com seu preço
-       logo abaixo. Se um serviço tiver "modalidades", o "precoDesde" dele é
-       ignorado — não precisa dos dois ao mesmo tempo.
-     - exemplos: [{ label, url, banner }] com os links do GitHub Pages.
-       "banner" é o caminho de uma miniatura/print da página (ex:
-       "prints/convite-menino.jpg") — aparece como thumbnail clicável no
-       card do serviço, pra chamar mais atenção do que só texto. Enquanto
-       o arquivo da imagem não existir, o card mostra um espaço reservado
-       com instrução de qual arquivo salvar ali (mesmo esquema dos
-       placeholders de foto que você já usa no sub-portfólio de Identidade
-       Visual). Na seção "Modelos prontos" lá embaixo, o link continua só
-       texto + ícone, sem thumbnail — não precisa mexer em nada pra isso.
-       Deixe exemplos: [] pros serviços que ainda não têm modelo no ar — a
-       página mostra "em breve" sozinha, sem precisar mexer em mais nada.
-
-  4) REGRAS COMERCIAIS → CONFIG.combos (% de desconto por combo) e
-     CONFIG.manutencao (valor avulso + planos). Os valores que estão aí são
-     EXEMPLO — troque pelos que você realmente vai praticar.
-
-  5) CORES/FONTES → variáveis no :root do <style>, logo no início.
-  ============================================================================
--->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
     <style>
       :root {
@@ -693,39 +649,32 @@
     <section class="hero">
       <div class="hero-inner">
         <span class="eyebrow">Presença digital personalizada</span>
-        <!-- <h1 id="heroTitulo">Seu negócio merece <span>mais</span></h1> -->
         <h1 id="heroTitulo">Soluções que <span>trabalham</span> por você</h1>
-        <!-- <p id="heroTagline">Soluções que trabalham por você</p> -->
       </div>
     </section>
 
     <section id="servicos">
       <span class="eyebrow">Serviços</span>
-      <!-- <h2>O que faço</h2> -->
       <div class="servicos-grid" id="servicosGrid"></div>
     </section>
 
     <section id="regras-comerciais">
       <span class="eyebrow">Como funciona</span>
-      <!-- <h2>Investimento</h2> -->
       <div class="regras-grid" id="regrasGrid"></div>
     </section>
 
     <section id="portfolio">
       <span class="eyebrow">Modelos Prontos</span>
-      <!-- <h2>Modelos prontos</h2> -->
       <div class="portfolio-lista" id="portfolioLista"></div>
     </section>
 
     <footer id="contato">
-      <!-- <span class="brand-nome" id="footerNome"></span> -->
       <div class="rodape-contato">
         <a id="footerWhats" href="#" target="_blank"
           ><i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp</a
         >
-        <span id="footerEmail"></span>
       </div>
-      <div class="rodape-legal"></div>
+      <div class="rodape-legal"> © 2026 APPOIO. Todos os direitos reservados. </div>
     </footer>
 
     <a
@@ -791,11 +740,13 @@
             ],
             diferenciais: [
               "Personalização: fotos, banner, paleta, música, lista de presentes, blocos visíveis etc.",
-              "3 versões: 1) Confirmação por WhatsApp; 2) Confirmação por WhatsApp + planilha; 3) Confirmação por WhatsApp + painel visual",
+              "Versão 1: Confirmação por WhatsApp",
+              "Versão 2: Confirmação por WhatsApp + planilha",
+              "Versão 3: Confirmação por WhatsApp + painel visual"
             ],
             // AJUSTE os valores reais de cada modo — estes são só exemplo
             modalidades: [
-              { nome: "Confirmação por WhatsApp", preco: 110 },
+              { nome: "Confirmação por WhatsApp", preco: 100 },
               { nome: "Confirmação por WhatsApp + planilha", preco: 150 },
               { nome: "Confirmação por WhatsApp + painel visual", preco: 190 },
             ],
@@ -899,44 +850,6 @@
             ],
           },
           {
-            id: "cardapio-digital",
-            nome: "Cardápio Digital",
-            status: "disponivel",
-            resumo: "Apresente e venda com facilidade!",
-            pitch: [
-              "Diferente de uma arte fixa, de fotos soltas ou compilados em stories, esse é um cardápio online de verdade: com todos os seus produtos categorizados.",
-              "O cliente pode navegar, escolher os itens, montar um carrinho e ver o subtotal em tempo real.",
-            ],
-            diferenciais: [
-              "Personalização: cores, logo, tema etc. Você decide o que exibir (taxa de entrega, formas de pagamento, avisos gerais...)",
-              "Simulação do pedido, evitando surpresas e agilizando a decisão de compra",
-              "Praticidade, sem precisar responder preço ou disponibilidade. Tudo está claro e acessível",
-              "Duas versões: só visualização, ou com carrinho e envio",
-            ],
-            // AJUSTE os valores reais de cada versão — estes são só exemplo
-            modalidades: [
-              { nome: "Só visualização", preco: 240 },
-              { nome: "Com carrinho e envio", preco: 290 },
-            ],
-            exemplos: [
-              {
-                label: "Pastelaria",
-                url: "https://appoio.github.io/cardapio-pastelaria/",
-                banner: "prints/11.png",
-              },
-              {
-                label: "Hamburgueria",
-                url: "https://appoio.github.io/cardapio-hamburgueria/",
-                banner: "prints/12.png",
-              },
-              {
-                label: "Doceria",
-                url: "https://appoio.github.io/cardapio-doceria/",
-                banner: "prints/13.png",
-              },
-            ],
-          },
-          {
             id: "landing-page",
             nome: "Landing Page",
             status: "disponivel",
@@ -952,7 +865,7 @@
               "Presença profissional que trabalha 24h, sem depender de resposta manual",
               "Sequência pensada pra converter: apresentação → serviços → prova social → contato",
             ],
-            precoDesde: 170,
+            precoDesde: 190,
             exemplos: [
               {
                 label: "Escola de Dança",
@@ -977,12 +890,50 @@
               "O cliente vê evolução, consistência e qualidade do seu trabalho",
               "Uma página dedicada transmite um nível de seriedade que a informalidade de uma rede social muitas vezes não consegue",
             ],
-            precoDesde: 250,
+            precoDesde: 210,
             exemplos: [
               {
                 label: "Tatuador",
                 url: "https://appoio.github.io/portfolio-tatuador/",
                 banner: "prints/15.png",
+              },
+            ],
+          },
+           {
+            id: "cardapio-digital",
+            nome: "Cardápio Digital",
+            status: "disponivel",
+            resumo: "Apresente e venda com facilidade!",
+            pitch: [
+              "Diferente de uma arte fixa, de fotos soltas ou compilados em stories, esse é um cardápio online de verdade: com todos os seus produtos categorizados.",
+              "O cliente pode navegar, escolher os itens, montar um carrinho e ver o subtotal em tempo real.",
+            ],
+            diferenciais: [
+              "Personalização: cores, logo, tema etc. Você decide o que exibir (taxa de entrega, formas de pagamento, avisos gerais...)",
+              "Simulação do pedido, evitando surpresas e agilizando a decisão de compra",
+              "Praticidade, sem precisar responder preço ou disponibilidade. Tudo está claro e acessível",
+              "Duas versões: só visualização, ou com carrinho e envio",
+            ],
+            // AJUSTE os valores reais de cada versão — estes são só exemplo
+            modalidades: [
+              { nome: "Só visualização", preco: 220 },
+              { nome: "Com carrinho e envio", preco: 260 },
+            ],
+            exemplos: [
+              {
+                label: "Pastelaria",
+                url: "https://appoio.github.io/cardapio-pastelaria/",
+                banner: "prints/11.png",
+              },
+              {
+                label: "Hamburgueria",
+                url: "https://appoio.github.io/cardapio-hamburgueria/",
+                banner: "prints/12.png",
+              },
+              {
+                label: "Doceria",
+                url: "https://appoio.github.io/cardapio-doceria/",
+                banner: "prints/13.png",
               },
             ],
           },
@@ -1068,12 +1019,7 @@
       ["footerWhats", "whatsFloat"].forEach((id) => {
         document.getElementById(id).href = whatsLink(msgPadrao);
       });
-      if (CONFIG.agencia.email) {
-        document.getElementById("footerEmail").textContent =
-          CONFIG.agencia.email;
-      } else {
-        document.getElementById("footerEmail").style.display = "none";
-      }
+
 
       // ---- serviços ----
       const grid = document.getElementById("servicosGrid");
