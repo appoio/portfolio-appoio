@@ -706,6 +706,10 @@
    CONFIG — o único bloco que você deveria precisar editar
    ============================================================================ */
       const CONFIG = {
+        // false = oculta todos os valores (serviços, combo, manutenção, QR code).
+        // Enquanto estiver ajustando os preços, deixe em false.
+        mostrarPrecos: false,
+
         agencia: {
           nome: "APPOIO",
           logoUrl: "logo.png", // ex: "imagens/logo.png" — vazio mostra o nome em texto
@@ -1035,7 +1039,9 @@
             : "";
 
         let notaPreco = "";
-        if (s.modalidades && s.modalidades.length) {
+        if (!CONFIG.mostrarPrecos) {
+          notaPreco = "";
+        } else if (s.modalidades && s.modalidades.length) {
           const menorPreco = Math.min(...s.modalidades.map((m) => m.preco));
           const listaModalidades = s.modalidades
             .map(
@@ -1127,6 +1133,26 @@
 
       // ---- regras comerciais (combo / manutenção / adicional) ----
       const regrasGrid = document.getElementById("regrasGrid");
+      if (!CONFIG.mostrarPrecos) {
+        regrasGrid.innerHTML = `
+  <div class="regra-card">
+    <h3>Pagamento único</h3>
+    <p>Sem mensalidade, sem renovação, sem cobrança recorrente pra seguir no ar.</p>
+  </div>
+  <div class="regra-card">
+    <h3>Desconto por combo</h3>
+    <p>Fechando mais de um serviço junto, sai um valor melhor. Combinamos direto no WhatsApp.</p>
+  </div>
+  <div class="regra-card">
+    <h3>Manutenção</h3>
+    <p>Ajustes avulsos ou planos de manutenção com mensalidade reduzida — consulte as condições.</p>
+  </div>
+  <div class="regra-card">
+    <h3>Adicional: QR Code</h3>
+    <p>Quer um QR Code personalizado levando direto pra sua página? É só pedir.</p>
+  </div>
+`;
+      } else {
       regrasGrid.innerHTML = `
   <div class="regra-card">
     <h3>Pagamento único</h3>
@@ -1152,6 +1178,7 @@
     <p>Quer um QR Code personalizado levando direto pra sua página? Adicional de <b>${formatarPreco(CONFIG.adicionalQrCode)}</b>.</p>
   </div>
 `;
+      }
 
       // ---- portfólio / modelos prontos ----
       const portfolioLista = document.getElementById("portfolioLista");
